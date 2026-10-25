@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { collectionNavigation } from "../../lib/navigation";
 import { Eye, EyeOff, LockKeyhole, ShieldCheck, Smartphone, Truck, Wallet } from "lucide-react";
 import { getCurrentMember, loginMember, logoutMember, registerMember, type Member } from "../../lib/auth";
 
@@ -34,6 +35,11 @@ export default function AccountPage() {
       if (!authenticatedMember) throw new Error("Authentication completed without a member profile.");
       setMember(authenticatedMember);
       setPassword("");
+      const next = new URLSearchParams(window.location.search).get("next");
+      if (next) {
+        const target = new URL(next, window.location.origin);
+        if (target.origin === window.location.origin) window.location.assign(target.href);
+      }
     } catch (error) {
       setNotice(error instanceof Error ? error.message : "Unable to sign in. Please try again.");
     } finally {
@@ -59,12 +65,12 @@ export default function AccountPage() {
     <main className="member-page">
       <div className="topline"><span>☎ HELPLINE: 01742528116</span><span>BANGLADESH EXPRESS DELIVERY</span><a href="#footer">▣ BECOME A SELLER</a><a href="#footer">♙ LOGIN TO SELLER</a></div>
       <header className="main-header">
-        <Link className="brand" href="/"><span>T-SHOE<span className="green-dot">•</span></span><small>EST. BD</small></Link>
+        <div className="header-brand-group"><Link className="brand" href="/"><span>T-SHOE<span className="green-dot">•</span></span><small>EST. BD</small></Link></div>
         <label className="searchbox"><span aria-hidden="true">⌕</span><input placeholder="Search exclusive sneakers, slides, authentic drops, brands..." /><button type="button">SEARCH</button></label>
-        <Link className="header-icon member-header-link" href="/notifications" aria-label="Notifications">♧</Link>
-        <Link className="cart-pill" href="/"><Wallet size={15} /><span>CART<br /><b>৳0.00</b></span></Link>
+        <div className="header-actions"><Link className="header-icon member-header-link" href="/notifications" aria-label="Notifications">♧</Link>
+          <Link className="cart-pill" href="/"><Wallet size={15} /><span>CART<br /><b>৳0.00</b></span></Link></div>
       </header>
-      <nav className="navline member-nav"><Link className="category-link" href="/">☷ &nbsp; Categories (See All)</Link>{["Home", "New Arrivals", "Sneakers", "Slides & Sandals", "Accessories", "Releases", "Stock Cleaness", "Upcoming"].map((item) => <Link href="/" key={item}>{item}</Link>)}<span>◉ &nbsp;100% AUTHENTIC GUARANTEED</span></nav>
+      <nav className="navline member-nav"><Link className="category-link" href="/brands">☷ &nbsp; Categories (See All)</Link>{collectionNavigation.map((item) => <Link href={item.href} key={item.label}>{item.label}</Link>)}<span>◉ &nbsp;100% AUTHENTIC GUARANTEED</span></nav>
       <div className="member-breadcrumb"><Link href="/">HOME</Link><span>›</span><b>MEMBER PORTAL ACCESS</b><span className="member-secure"><LockKeyhole size={11} /> 256-BIT SSL SECURED TERMINAL</span></div>
       <section className="member-layout">
         <aside className="member-promo">

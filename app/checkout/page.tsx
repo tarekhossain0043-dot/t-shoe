@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { collectionNavigation } from "../../lib/navigation";
 import { useRouter } from "next/navigation";
 import {
   ArrowLeft,
@@ -111,7 +112,9 @@ export default function Checkout() {
         subtotal,
         shipping,
         discount,
+        couponCode: discount ? coupon.trim().toUpperCase() : "",
         delivery,
+        paymentMethod: payment,
       }));
       router.push("/payment");
     } catch (error) {
@@ -130,14 +133,14 @@ export default function Checkout() {
         <a href="#seller">Login to Seller</a>
       </div>
       <header className="express-header">
-        <Link className="express-logo" href="/"><b>T</b><span>T-SHOE<small>SHOE BD</small></span></Link>
+        <div className="header-brand-group"><Link className="express-logo" href="/"><b>T</b><span>T-SHOE<small>SHOE BD</small></span></Link></div>
         <label className="express-search"><span>⌕</span><input aria-label="Search products" placeholder="Search exclusive sneakers, slides, authentic drops, brands..." /><button type="button">Search</button></label>
-        <Link className="express-header-action" href="/"><ShoppingBag /><span>{itemCount} ITEMS<br /><b>{money(subtotal)}</b></span></Link>
-        <Link className="express-header-action verified-account" href="/"><BadgeCheck /><span>ACCOUNT<br /><b>Verified</b></span></Link>
+        <div className="header-actions"><Link className="express-header-action" href="/"><ShoppingBag /><span>{itemCount} ITEMS<br /><b>{money(subtotal)}</b></span></Link>
+          <Link className="express-header-action verified-account" href="/"><BadgeCheck /><span>ACCOUNT<br /><b>Verified</b></span></Link></div>
       </header>
       <nav className="express-nav">
         <Link className="express-category" href="/">▦ &nbsp; CATEGORIES (SEE ALL)</Link>
-        {["Home", "New Arrivals", "Sneakers", "Slides & Sandals", "Accessories", "Releases", "Stock Cleaness", "Upcoming"].map((label) => <Link key={label} href="/">{label}</Link>)}
+        {collectionNavigation.map((item) => <Link key={item.label} href={item.href}>{item.label}</Link>)}
         <span>◉ &nbsp;100% AUTHENTIC GUARANTEED</span>
       </nav>
 

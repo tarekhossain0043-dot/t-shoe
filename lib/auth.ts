@@ -15,6 +15,7 @@ const apiBase = (process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api")
 const accessKey = "tshoe-access-token";
 const refreshKey = "tshoe-refresh-token";
 const memberKey = "tshoe-member";
+let refreshPromise: Promise<string | null> | null = null;
 
 function storage(remember = true): Storage {
   return remember ? localStorage : sessionStorage;
@@ -40,7 +41,17 @@ async function responseData<T>(response: Response): Promise<T> {
 export async function apiRequest<T>(path: string, init: RequestInit = {}): Promise<T> {
   const headers = new Headers(init.headers);
   if (init.body && !headers.has("Content-Type")) headers.set("Content-Type", "application/json");
-  const response = await fetch(`${apiBase}${path.startsWith("/") ? path : `/${path}`}`, { ...init, headers });
+  const stored = typeof window === "undefined" ? null : storedTokens();
+  if (stored?.access && !headers.has("Authorization")) headers.set("Authorization", `Bearer ${stored.access}`);
+  const url = `${apiBase}${path.startsWith("/") ? path : `/${path}`}`;
+  let response = await fetch(url, { ...init, headers });
+  if (response.status === 401 && stored && !path.includes("/auth/")) {
+    const access = await refreshAccess();
+    if (access) {
+      headers.set("Authorization", `Bearer ${access}`);
+      response = await fetch(url, { ...init, headers });
+    }
+  }
   return responseData<T>(response);
 }
 
@@ -62,6 +73,16 @@ function storedTokens() {
 }
 
 async function refreshAccess(): Promise<string | null> {
+  if (refreshPromise) return refreshPromise;
+  refreshPromise = refreshAccessToken();
+  try {
+    return await refreshPromise;
+  } finally {
+    refreshPromise = null;
+  }
+}
+
+async function refreshAccessToken(): Promise<string | null> {
   const stored = storedTokens();
   if (!stored?.refresh) return null;
   const response = await fetch(`${apiBase}/auth/refresh/`, {
@@ -81,11 +102,21 @@ async function refreshAccess(): Promise<string | null> {
 }
 
 async function authenticate(path: "login" | "register", body: Record<string, string>, remember: boolean) {
-  const response = await fetch(`${apiBase}/auth/${path}/`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  });
+  let response: Response;
+  try {
+    response = await fetch(`${apiBase}/auth/${path}/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+  } catch (error) {
+    if (error instanceof TypeError) {
+      throw new Error(
+        `Cannot reach the T-SHOE API at ${apiBase}. Start Django from the backend folder, or set NEXT_PUBLIC_API_URL to your deployed backend API and allow this site in CORS.`,
+      );
+    }
+    throw error;
+  }
   const tokens = await responseData<TokenPair>(response);
   saveTokens(tokens, remember);
   return tokens.user;

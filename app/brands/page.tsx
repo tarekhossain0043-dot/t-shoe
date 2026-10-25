@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import { collectionNavigation } from "../../lib/navigation";
 import { ArrowUpRight, Search, ShieldCheck, Store, Tag } from "lucide-react";
 
 const collections = [
@@ -37,12 +38,12 @@ export default function BrandDirectoryPage() {
   return (
     <main className="brand-directory-page">
       <div className="topline"><span>☎ HELPLINE: 01742528116</span><span>▣ Bangladesh Express Delivery</span><Link href="/account">Become a Seller</Link><Link href="/account">Login to Seller</Link></div>
-      <header className="main-header"><Link className="brand" href="/"><span>T-SHOE<span className="green-dot">•</span></span><small>EST. BD</small></Link><label className="searchbox"><Search size={15} /><input placeholder="Search exclusive sneakers, slides, authentic drops, brands..." /><button type="button">SEARCH</button></label><Link className="header-icon" href="/notifications">♡</Link><Link className="header-icon account-button" href="/account">♙<small>ACCOUNT<br /><b>My Profile</b></small></Link><Link className="cart-pill" href="/checkout">▣<span>CART<br /><b>৳0.00</b></span></Link></header>
-      <nav className="navline brand-directory-nav"><Link className="category-link" href="/brands">☷ &nbsp; Categories (See All)</Link>{["Home", "New Arrivals", "Sneakers", "Slides & Sandals", "Accessories", "Releases", "Stock Cleaness", "Upcoming"].map((item) => <Link key={item} href={item === "Home" ? "/" : "/brands"}>{item}</Link>)}<span>◉ &nbsp;100% AUTHENTIC GUARANTEED</span></nav>
+      <header className="main-header"><div className="header-brand-group"><Link className="brand" href="/"><span>T-SHOE<span className="green-dot">•</span></span><small>EST. BD</small></Link></div><label className="searchbox"><Search size={15} /><input placeholder="Search exclusive sneakers, slides, authentic drops, brands..." /><button type="button">SEARCH</button></label><div className="header-actions"><Link className="header-icon" href="/notifications">♡</Link><Link className="header-icon account-button" href="/account">♙<small>ACCOUNT<br /><b>My Profile</b></small></Link><Link className="cart-pill" href="/checkout">▣<span>CART<br /><b>৳0.00</b></span></Link></div></header>
+      <nav className="navline brand-directory-nav"><Link className="category-link" href="/brands">☷ &nbsp; Categories (See All)</Link>{collectionNavigation.map((item) => <Link key={item.label} href={item.href}>{item.label}</Link>)}<span>◉ &nbsp;100% AUTHENTIC GUARANTEED</span></nav>
       <div className="directory-topline"><span>HOME &nbsp;›&nbsp; BRAND DIRECTORY &amp; CATEGORIES</span><div><b>◉ 100% LEGIT VERIFIED SOURCING</b><i>·</i><span>▣ DHAKA &amp; NATIONWIDE 24–48H DELIVERY</span><i>·</i><span>♙ RAJSHAHI &amp; BOGURA HUBS</span></div></div>
       <section className="directory-intro"><div><span className="directory-kicker">◉ GLOBAL SNEAKER AUTHORITY BD</span><h1>All Footwear Brands &amp; Silhouettes</h1><p>Explore 19+ authentic sportswear houses, certified hype releases, slides, and precision athletic labels. Verified through T-SHOE&apos;s multi-stage deadstock authenticity standard.</p></div><div className="directory-stats"><span><b>{visible.length.toString().padStart(2, "0")}</b><small>ACTIVE HUBS<br />Brands &amp; Curations</small></span><span><ShieldCheck /><small>GRADE<br /><b>100% Genuine</b></small></span></div></section>
       <section className="directory-controls"><label><Search size={14} /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search category or brand name (e.g., Nike, Jordan, Asics, Slides, Cleaness)" /></label>{filters.map((option) => <button key={option} className={filter === option ? "active" : ""} onClick={() => setFilter(option)}>{option}{option === "All Collections" ? ` (${collections.length})` : ""}</button>)}</section>
-      <section className="brand-tile-grid">{visible.map((brand) => <Link className={`brand-tile ${brand.featured === "UP TO 50% OFF" ? "clearance-tile" : ""}`} key={brand.name} href={`/?brand=${encodeURIComponent(brand.name)}`}>
+      <section className="brand-tile-grid">{visible.map((brand) => <Link className={`brand-tile ${brand.featured === "UP TO 50% OFF" ? "clearance-tile" : ""}`} key={brand.name} href={collectionNavigation.find((item) => item.label === brand.name)?.href ?? `/?brand=${encodeURIComponent(brand.name)}`}>
         {brand.featured && <span className="brand-tile-featured">{brand.featured}</span>}
         <div className={`brand-mark ${brand.image ? "brand-mark-image" : ""}`}>{brand.image ? <img src={brand.image} alt="" /> : <b>{brand.mark}</b>}</div>
         <h2>{brand.name}</h2><small>{brand.children} CHILD CATEGORIES</small>

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { collectionNavigation } from "../../lib/navigation";
 import {
   ArrowLeft,
   BadgeCheck,
@@ -26,7 +27,9 @@ type SavedOrder = {
   discount: number;
   total: number;
   payment: string;
+  paymentStatus?: string;
   delivery: string;
+  pickupOutlet?: string;
   placedAt: string;
 };
 
@@ -49,7 +52,10 @@ export default function OrderTrackingPage() {
 
   const orderId = order?.orderNumber || "NHK-89241";
   const orderTime = order ? new Date(order.placedAt).toLocaleString("en-BD", { dateStyle: "medium", timeStyle: "short" }) : "Today, 03:46 PM";
-  const address = order ? [order.customer.house, order.customer.road, order.customer.area, order.customer.city].filter(Boolean).join(", ") : "House 12, Road 4, Sector 7, Uttara, Dhaka - 1230, Bangladesh";
+  const address = order?.pickupOutlet
+    ? `${order.pickupOutlet} outlet`
+    : order ? [order.customer.house, order.customer.road, order.customer.area, order.customer.city].filter(Boolean).join(", ") : "";
+  const paymentIsVerified = order?.paymentStatus === "paid";
   const totalItems = order?.items.reduce((sum, item) => sum + item.qty, 0) ?? 3;
 
   if (loaded && !order) {
@@ -65,25 +71,25 @@ export default function OrderTrackingPage() {
     <main className="tracking-page">
       <div className="topline"><span>☎ HELPLINE: 01742528116</span><span>BANGLADESH EXPRESS DELIVERY</span><a href="#footer">▣ BECOME A SELLER</a><a href="#footer">♙ LOGIN TO SELLER</a></div>
       <header className="main-header">
-        <Link className="brand" href="/"><span>T-SHOE<span className="green-dot">•</span></span><small>EST. BD</small></Link>
+        <div className="header-brand-group"><Link className="brand" href="/"><span>T-SHOE<span className="green-dot">•</span></span><small>EST. BD</small></Link></div>
         <label className="searchbox"><span aria-hidden="true">⌕</span><input placeholder="Search exclusive sneakers, slides, authentic drops, brands..." /><button type="button">SEARCH</button></label>
-        <Link className="header-icon" href="/notifications" aria-label="Notifications">♧</Link>
-        <Link className="header-icon account-button" href="/account">♙<small>ACCOUNT<br /><b>My Profile</b></small></Link>
-        <Link className="cart-pill" href="/"><span>▣</span><span>CART<br /><b>৳0.00</b></span></Link>
+        <div className="header-actions"><Link className="header-icon" href="/notifications" aria-label="Notifications">♧</Link>
+          <Link className="header-icon account-button" href="/account">♙<small>ACCOUNT<br /><b>My Profile</b></small></Link>
+          <Link className="cart-pill" href="/"><span>▣</span><span>CART<br /><b>৳0.00</b></span></Link></div>
       </header>
-      <nav className="navline tracking-nav"><Link className="category-link" href="/">☷ &nbsp; Categories (See All)</Link>{["Home", "New Arrivals", "Sneakers", "Slides & Sandals", "Accessories", "Releases", "Stock Cleaness", "Upcoming"].map((item) => <Link href="/" key={item}>{item}</Link>)}<span>◉ &nbsp;100% AUTHENTIC GUARANTEED</span></nav>
+      <nav className="navline tracking-nav"><Link className="category-link" href="/brands">☷ &nbsp; Categories (See All)</Link>{collectionNavigation.map((item) => <Link href={item.href} key={item.label}>{item.label}</Link>)}<span>◉ &nbsp;100% AUTHENTIC GUARANTEED</span></nav>
 
       <div className="tracking-wrap">
         {!loaded ? <div className="tracking-loading">Loading your order details…</div> : <>
           <section className="order-confirmation-banner">
-            <div><span className="confirmation-kicker"><BadgeCheck size={12} /> AUTHENTICITY GUARANTEED &nbsp;·&nbsp; VERIFIED DROP</span><h1>Order Confirmed. Welcome to the Vault.</h1><p>Thank you! Your order has been placed successfully. A confirmation message and real-time tracking link have been dispatched via SMS &amp; WhatsApp to <b>{order?.customer.phone || "0170-121-345678"}</b>.</p><div className="confirmation-meta"><span>Order Reference: &nbsp;<b>#{orderId}</b></span><span>Ordered: &nbsp;<b>{orderTime}</b></span><span>Est. Delivery: &nbsp;<b>24 - 48 Hours</b></span></div></div>
+            <div><span className="confirmation-kicker"><BadgeCheck size={12} /> ORDER RECEIVED &nbsp;·&nbsp; {paymentIsVerified ? "PAYMENT VERIFIED" : `PAYMENT ${order?.paymentStatus?.toUpperCase() || "STATUS PENDING"}`}</span><h1>{paymentIsVerified ? "Payment confirmed. Order received." : "Order received. Payment is not confirmed yet."}</h1><p>Your order reference is ready. Payment status: <b>{paymentIsVerified ? "Paid and verified" : order?.paymentStatus || "unpaid"}</b>. For collection or delivery updates, contact support with order reference <b>#{orderId}</b>.</p><div className="confirmation-meta"><span>Order Reference: &nbsp;<b>#{orderId}</b></span><span>Ordered: &nbsp;<b>{orderTime}</b></span><span>Payment: &nbsp;<b>{order?.payment || "—"}</b></span></div></div>
             <div className="confirmation-actions"><button onClick={() => window.print()}><Download size={13} /> DOWNLOAD INVOICE (PDF)</button><Link href="/"><PackageCheck size={13} /> CONTINUE SHOPPING</Link></div>
           </section>
 
           <section className="tracking-timeline-panel">
-            <div className="tracking-panel-heading"><div><span>◉ REAL-TIME PROGRESSION</span><h2>Live Order Tracking Timeline</h2></div><b><MapPin size={12} /> Rajshahi Central Authenticity Hub</b></div>
+            <div className="tracking-panel-heading"><div><span>ORDER STATUS</span><h2>Order Fulfillment Timeline</h2></div><b><MapPin size={12} /> {order?.pickupOutlet ? `${order.pickupOutlet} Pickup` : "Bangladesh"}</b></div>
             <div className="tracking-timeline">
-              {[{ title: "Order Confirmed", detail: "Payment verified & inventory allocated from verified tier-1 stock.", time: order ? "JUST NOW" : "03:45 PM", icon: <Check size={15} /> }, { title: "REID & Authentication", detail: "Leather gauge & stitching inspection under UV by senior sneakerhead.", time: "ACTIVE HUB", icon: <ShieldCheck size={15} /> }, { title: "Double-Box Packaging", detail: "Armor-seal exterior carton with tamper-proof Newke holographic seal.", time: "Pending", icon: <PackageCheck size={14} /> }, { title: "Dispatched to Transit", detail: "Handed over to Bangladesh Express Courier dedicated priority fleet.", time: "Pending", icon: <Truck size={14} /> }, { title: "Doorstep Delivery", detail: "Recipient physical check before signing final courier manifest.", time: "Pending", icon: <MapPin size={14} /> }].map((step, index) =>
+              {[{ title: "Order Received", detail: paymentIsVerified ? "Provider payment verification completed." : `Payment has not been confirmed. Current status: ${order?.paymentStatus || "unpaid"}.`, time: order ? "RECEIVED" : "Pending", icon: <Check size={15} /> }, { title: "Preparation", detail: "Preparation updates will appear after the order is accepted.", time: "Pending", icon: <ShieldCheck size={15} /> }, { title: "Packaging", detail: "Shipment updates will appear when available.", time: "Pending", icon: <PackageCheck size={14} /> }, { title: "Dispatch", detail: "Courier tracking is not connected yet.", time: "Pending", icon: <Truck size={14} /> }, { title: "Delivery", detail: "Delivery updates will appear when available.", time: "Pending", icon: <MapPin size={14} /> }].map((step, index) =>
                 <article className={`timeline-step ${index === 0 ? "step-done" : index === 1 ? "step-active" : ""}`} key={step.title}><div className="timeline-step-top"><span>{step.icon}</span><small>{step.time}</small></div><label>STEP 0{index + 1}</label><h3>{step.title}</h3><p>{step.detail}</p></article>)}
             </div>
             <div className="inspection-note"><span><ShieldCheck size={15} /></span><p><b>Inspection Note by Lead Authenticator (Badge #BD-109)</b><small>&quot;Silhouette shape, inner tongue label font, and reverse swoosh symmetry authenticated 100%. RFID chip embedded.&quot;</small></p><button onClick={() => window.print()}>VIEW CHECK REPORT</button></div>

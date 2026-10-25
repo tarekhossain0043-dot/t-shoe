@@ -896,6 +896,7 @@
 .payment-layout{max-width:1450px;display:grid;grid-template-columns:285px minmax(0,1fr);gap:14px;margin:auto;padding:0 4.4% 22px}
 .payment-channel-list>h2{margin:0 0 7px;font-size:7px;letter-spacing:.4px}
 .payment-channel{width:100%;min-height:53px;display:flex;align-items:center;gap:9px;margin-bottom:6px;padding:8px;border:1px solid #edf0ef;border-radius:5px;background:#fff;text-align:left}
+.payment-channel.channel-unavailable{opacity:.58;cursor:not-allowed}
 .payment-channel>span:nth-child(2){display:flex;flex:1;flex-direction:column;gap:3px}
 .payment-channel>span:nth-child(2)>b{font-size:8px}
 .payment-channel>span:nth-child(2)>small{font-size:6px;color:#69766f}
@@ -924,6 +925,8 @@
 .gateway-number small{font-size:6px;color:#63716a}
 .gateway-number b{font-size:8px}
 .gateway-method-note{margin-top:13px}
+.pickup-outlet-field{display:flex;flex-direction:column;gap:5px;margin-top:9px;font-size:6px;font-weight:800}
+.pickup-outlet-field select{min-height:34px;padding:6px;border:1px solid #dfe6e3;border-radius:3px;background:#fff;color:#14211b;font:inherit}
 .gateway-security-note{display:flex;align-items:center;gap:5px;margin:8px 0;color:#5d6c64;font-size:6px;line-height:1.4}
 .payment-consent{display:flex;align-items:flex-start;gap:6px;margin:10px 0;font-size:6px;line-height:1.5}
 .payment-consent input{margin:1px 0 0;accent-color:#00382e}
@@ -1190,7 +1193,7 @@
 }
 @media(max-width:650px){
   .catalog-page .main-header{gap:9px;padding:0 14px}
-  .catalog-page .main-header>.brand{margin-right:auto}
+  .catalog-page .main-header>.header-brand-group{margin-right:auto}
   .catalog-page .main-header>.header-icon,.catalog-page .main-header>.cart-pill{flex-shrink:0}
   .catalog-page .main-header>.mobile-menu{flex-shrink:0}
   .home-showcase{display:block;margin-top:10px;padding:0 12px}
@@ -1219,4 +1222,170 @@
   .home-retro-banner p{max-width:190px;font-size:6px}
   .home-retro-product{height:90px;flex-basis:38%}
   .catalog-footer .footer-grid a{font-size:7px}
+}
+
+/* Keep secondary-page storefront headers full-width and visible while scrolling. */
+.brand-directory-page .main-header,
+.product-detail-page .main-header,
+.order-history-page .main-header,
+.member-page .main-header,
+.notifications-page .main-header,
+.tracking-page .main-header,
+.collection-page .main-header,
+.payment-page .express-header,
+.payment-page .payment-header,
+.checkout-page .express-header{
+  position:sticky;
+  top:0;
+  left:0;
+  right:0;
+  z-index:30;
+  width:100%;
+  max-width:none;
+}
+.brand-directory-nav,
+.product-detail-nav,
+.order-history-nav,
+.member-nav,
+.notifications-nav,
+.tracking-nav,
+.collection-nav,
+.express-nav{
+  position:sticky;
+  top:55px;
+  z-index:19;
+}
+.express-nav{top:46px}
+.brand-directory-page .account-button,
+.product-detail-page .account-button,
+.order-history-page .account-button,
+.member-page .account-button,
+.notifications-page .account-button,
+.tracking-page .account-button,
+.collection-page .account-button{
+  min-width:40px;
+  justify-content:center;
+  font-size:24px;
+}
+.brand-directory-page .account-button svg,
+.product-detail-page .account-button svg,
+.order-history-page .account-button svg,
+.member-page .account-button svg,
+.notifications-page .account-button svg,
+.tracking-page .account-button svg,
+.collection-page .account-button svg{
+  width:24px;
+  height:24px;
+  flex-shrink:0;
+}
+.product-detail-page .header-actions .header-icon{font-size:30px}
+.product-detail-page .header-actions .header-icon svg{width:30px;height:30px}
+.collection-page{min-height:100vh;background:#f5f8f8}
+.collection-heading{padding:20px 4.4% 22px;background:#eef3f3}
+.collection-heading>div:first-child{display:flex;gap:7px;margin-bottom:18px;color:#68756e;font-size:7px}
+.collection-heading>div:first-child a{color:#00634b}
+.collection-kicker{display:flex;align-items:center;gap:5px;color:#00634b;font-size:8px;font-weight:800}
+.collection-heading h1{margin:8px 0 5px;font:700 clamp(26px,3vw,38px)/1.1 'Space Grotesk',sans-serif;letter-spacing:-1px}
+.collection-heading p{margin:0;color:#66736f;font-size:10px}
+.collection-results{padding:20px 4.4% 36px}
+.collection-results-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px}
+.collection-results-heading h2{margin:0;font:700 20px 'Space Grotesk'}
+.collection-results-heading>span{color:#64736d;font-size:9px}
+.collection-product-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.collection-product{min-width:0;padding:9px;background:#fff;border:1px solid #e8eeeb}
+.collection-product>div{height:clamp(130px,16vw,210px);position:relative;overflow:hidden;background:#f1f4f4}
+.collection-product img{width:100%;height:100%;object-fit:cover}
+.collection-product>div>span{position:absolute;left:7px;top:7px;padding:4px 6px;background:#00382e;color:#fff;font-size:7px;font-weight:800}
+.collection-product>small{display:block;margin-top:9px;color:#68756e;font-size:7px;text-transform:uppercase}
+.collection-product h3{min-height:31px;margin:5px 0;font-size:11px}
+.collection-product>b{color:#00543f;font:700 13px 'Space Grotesk'}
+.collection-product-link{display:flex;align-items:center;justify-content:space-between;margin-top:9px;padding:8px;background:#00382e;color:#fff;font-size:7px;font-weight:800}
+.collection-empty{max-width:520px;margin:35px auto;padding:30px;background:#fff;text-align:center;border:1px solid #e8eeeb}
+.collection-empty h1,.collection-empty h2{margin:0 0 8px;font:600 19px 'Space Grotesk'}
+.collection-empty p{color:#66736f;font-size:10px;line-height:1.5}
+.collection-empty>a{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:10px 13px;background:#00382e;color:#fff;font-size:9px;font-weight:800}
+.collection-error{color:#7d4e00;font-size:9px}
+.header-brand-group,
+.header-actions{
+  display:flex;
+  align-items:center;
+}
+.header-brand-group{gap:9px}
+.header-actions{gap:14px;flex-shrink:0}
+.main-header,
+.express-header,
+.payment-header,
+.tracking-empty-header{
+  box-sizing:border-box;
+  width:100%;
+  max-width:none;
+  margin-left:0;
+  margin-right:0;
+}
+@media(max-width:650px){
+  .brand-directory-page .main-header,
+  .product-detail-page .main-header,
+  .order-history-page .main-header,
+  .member-page .main-header,
+  .notifications-page .main-header,
+  .tracking-page .main-header,
+  .collection-page .main-header,
+  .payment-page .express-header,
+  .payment-page .payment-header,
+  .checkout-page .express-header{
+    height:58px;
+    padding:0 12px;
+    gap:9px;
+    margin-bottom:36px;
+    width:100%;
+    max-width:none;
+    margin-left:0;
+    margin-right:0;
+  }
+  .main-header,
+  .express-header,
+  .payment-header,
+  .tracking-empty-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .header-brand-group{flex:0 0 auto}
+  .header-actions{
+    flex:1 1 auto;
+    justify-content:flex-end;
+    max-width:230px;
+    margin-left:auto;
+    gap:14px;
+  }
+  .header-actions .header-icon svg,
+  .header-actions .express-header-action svg,
+  .header-actions .cart-pill svg{
+    width:20px;
+    height:20px;
+  }
+  .catalog-page .header-actions{max-width:230px}
+  .catalog-page .main-header>.header-brand-group{margin-right:0}
+  .catalog-page .header-actions>.header-icon,
+  .catalog-page .header-actions>.cart-pill{flex-shrink:0}
+  .catalog-page .header-brand-group>.mobile-menu{flex-shrink:0}
+  .brand-directory-nav,
+  .product-detail-nav,
+  .order-history-nav,
+  .member-nav,
+  .notifications-nav,
+  .tracking-nav,
+  .collection-nav,
+  .express-nav{display:none}
+  .collection-page .searchbox{position:absolute;top:59px;left:0;right:0;width:100%;height:36px;max-width:none;margin:0;border-radius:0;border-left:0;border-right:0;background:#fff}
+  .collection-heading{padding:14px 13px}
+  .collection-heading>div:first-child{margin-bottom:14px}
+  .collection-heading h1{font-size:25px}
+  .collection-heading p{font-size:9px;line-height:1.5}
+  .collection-results{padding:15px 12px 24px}
+  .collection-product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .collection-product{padding:7px}
+  .collection-product>div{height:clamp(120px,42vw,190px)}
+  .collection-product h3{font-size:9px}
+  .collection-empty{margin:20px auto;padding:22px 15px}
 }

@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import { collectionNavigation } from "../../lib/navigation";
 import {
   Bell,
   Check,
@@ -90,13 +91,13 @@ export default function NotificationsPage() {
     <main className="notifications-page">
       <div className="topline"><span>☎ HELPLINE: 01742528116</span><span>BANGLADESH EXPRESS DELIVERY</span><a href="#footer">▣ BECOME A SELLER</a><a href="#footer">♙ LOGIN TO SELLER</a></div>
       <header className="main-header">
-        <Link className="brand" href="/"><span>T-SHOE<span className="green-dot">•</span></span><small>EST. BD</small></Link>
+        <div className="header-brand-group"><Link className="brand" href="/"><span>T-SHOE<span className="green-dot">•</span></span><small>EST. BD</small></Link></div>
         <label className="searchbox"><span aria-hidden="true">⌕</span><input placeholder="Search exclusive sneakers, slides, authentic drops, brands..." /><button type="button">SEARCH</button></label>
-        <Link className="header-icon" href="/notifications" aria-label="Notifications"><Bell size={18} /><sup>{unreadCount}</sup></Link>
-        <Link className="header-icon account-button" href="/account">♙<small>ACCOUNT<br /><b>My Profile</b></small></Link>
-        <Link className="cart-pill" href="/"><span>▣</span><span>CART<br /><b>৳0.00</b></span></Link>
+        <div className="header-actions"><Link className="header-icon" href="/notifications" aria-label="Notifications"><Bell size={18} /><sup>{unreadCount}</sup></Link>
+          <Link className="header-icon account-button" href="/account">♙<small>ACCOUNT<br /><b>My Profile</b></small></Link>
+          <Link className="cart-pill" href="/"><span>▣</span><span>CART<br /><b>৳0.00</b></span></Link></div>
       </header>
-      <nav className="navline notifications-nav"><Link className="category-link" href="/">☷ &nbsp; Categories (See All)</Link>{["Home", "New Arrivals", "Sneakers", "Slides & Sandals", "Accessories", "Releases", "Stock Cleaness", "Upcoming"].map((item) => <Link href="/" key={item}>{item}</Link>)}<span>◉ &nbsp;100% AUTHENTIC GUARANTEED</span></nav>
+      <nav className="navline notifications-nav"><Link className="category-link" href="/brands">☷ &nbsp; Categories (See All)</Link>{collectionNavigation.map((item) => <Link href={item.href} key={item.label}>{item.label}</Link>)}<span>◉ &nbsp;100% AUTHENTIC GUARANTEED</span></nav>
       <div className="notification-breadcrumb"><Link href="/">HOME</Link><span>›</span><Link href="/account">ACCOUNT</Link><span>›</span><b>NOTIFICATIONS &amp; ALERTS</b></div>
       <section className="notification-heading">
         <div><span className="radar-kicker"><i /> LIVE RADAR ACTIVE &nbsp; · &nbsp; Bangladesh Direct Drops</span><h1>Notifications &amp; Drop Radar</h1><p>Real-time release alarms, hub authentication checkpoints, VIP priority raffle allocations, and account perks.</p></div>

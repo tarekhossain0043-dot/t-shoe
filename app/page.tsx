@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { collectionNavigation } from "../lib/navigation";
 import {
   ArrowRight,
   BadgeCheck,
@@ -203,18 +204,22 @@ export default function Home() {
         <a href="#footer">▣ BECOME A SELLER</a><a href="#footer">♙ LOGIN TO SELLER</a>
       </div>
       <header className="main-header">
-        <button className="mobile-menu" onClick={() => setMenu(!menu)} aria-label="Toggle navigation"><Menu /></button>
-        <Link className="brand" href="/"><span>T-SHOE<span className="green-dot">•</span></span><small>EST. BD</small></Link>
+        <div className="header-brand-group">
+          <button className="mobile-menu" onClick={() => setMenu(!menu)} aria-label="Toggle navigation"><Menu /></button>
+          <Link className="brand" href="/"><span>T-SHOE<span className="green-dot">•</span></span><small>EST. BD</small></Link>
+        </div>
         <label className="searchbox"><Search size={16} /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search exclusive sneakers, slides, authentic drops, brands..." /><button type="button">SEARCH</button></label>
-        <button className="header-icon" onClick={() => notify(`${wish.length} saved item(s)`)} aria-label="Wishlist"><Heart size={19} /><sup>{wish.length}</sup></button>
-        <a className="header-icon notification-link" href="/notifications" aria-label="Notifications"><Bell size={18} /><sup>3</sup></a>
-        <a className="header-icon account-button" href="/account"><UserRound size={18} /><small>ACCOUNT<br /><b>My Profile</b></small></a>
-        <button className="cart-pill" onClick={() => setDrawer(true)}><ShoppingCart size={16} /><span>CART<br /><b>{money(total)}</b></span><sup>{count}</sup></button>
+        <div className="header-actions">
+          <button className="header-icon" onClick={() => notify(`${wish.length} saved item(s)`)} aria-label="Wishlist"><Heart size={19} /><sup>{wish.length}</sup></button>
+          <a className="header-icon notification-link" href="/notifications" aria-label="Notifications"><Bell size={18} /><sup>3</sup></a>
+          <a className="header-icon account-button" href="/account"><UserRound size={18} /><small>ACCOUNT<br /><b>My Profile</b></small></a>
+          <button className="cart-pill" onClick={() => setDrawer(true)}><ShoppingCart size={16} /><span>CART<br /><b>{money(total)}</b></span><sup>{count}</sup></button>
+        </div>
       </header>
       <nav className={`navline ${menu ? "nav-open" : ""}`}>
         <Link className="category-link" href="/brands"><SlidersHorizontal size={14} /> Categories (See All)</Link>
-        {["Home", "New Arrivals", "Sneakers", "Slides & Sandals", "Accessories", "Releases", "• Stock Cleaness", "Upcoming"].map((item, index) =>
-          <Link key={item} href={index === 0 ? "/" : "/brands"}>{item}</Link>)}
+        {collectionNavigation.map((item) =>
+          <Link key={item.label} href={item.href}>{item.label}</Link>)}
         <span>◉ &nbsp;100% AUTHENTIC GUARANTEED</span>
       </nav>
 

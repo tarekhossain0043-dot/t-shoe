@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { collectionNavigation } from "../../../lib/navigation";
 import { useParams, useRouter } from "next/navigation";
 import { Check, Heart, MapPin, PackageCheck, Plus, RotateCcw, ShieldCheck, ShoppingBag, Truck, Zap } from "lucide-react";
 import { apiRequest } from "../../../lib/auth";
@@ -93,14 +94,14 @@ export default function ProductDetailPage() {
   };
 
   if (!product) {
-    return <main className="product-detail-page"><header className="main-header"><Link className="brand" href="/">T-SHOE<span className="green-dot">•</span></Link></header><section className="product-load-state" role={loading ? "status" : "alert"}><h1>{loading ? "Loading product…" : "Product unavailable"}</h1><p>{loading ? "Please wait while we load the product details." : loadError}</p><Link href="/">Return to the sneaker collection</Link></section></main>;
+    return <main className="product-detail-page"><header className="main-header"><div className="header-brand-group"><Link className="brand" href="/">T-SHOE<span className="green-dot">•</span></Link></div></header><section className="product-load-state" role={loading ? "status" : "alert"}><h1>{loading ? "Loading product…" : "Product unavailable"}</h1><p>{loading ? "Please wait while we load the product details." : loadError}</p><Link href="/">Return to the sneaker collection</Link></section></main>;
   }
 
   return (
     <main className="product-detail-page">
       <div className="topline"><span>☎ HELPLINE: 01742528116</span><span>Bangladesh Express Delivery</span><Link href="/account">Become a Seller</Link><Link href="/account">Login to Seller</Link></div>
-      <header className="main-header"><Link className="brand" href="/"><span>T-SHOE<span className="green-dot">•</span></span><small>EST. BD</small></Link><label className="searchbox"><span>⌕</span><input placeholder="Search exclusive sneakers, slides, authentic drops, brands..." /><button type="button">SEARCH</button></label><Link className="header-icon" href="/notifications">♡</Link><Link className="header-icon account-button" href="/account">♙<small>ACCOUNT<br /><b>My Profile</b></small></Link><Link className="cart-pill" href="/checkout"><ShoppingBag size={15} /><span>CART<br /><b>৳0.00</b></span></Link></header>
-      <nav className="navline product-detail-nav"><Link className="category-link" href="/brands">☷ &nbsp; Categories (See All)</Link>{["Home", "New Arrivals", "Sneakers", "Slides & Sandals", "Accessories", "Releases", "Stock Cleaness", "Upcoming"].map((item) => <Link href={item === "Home" ? "/" : "/brands"} key={item}>{item}</Link>)}<span>◉ &nbsp;100% AUTHENTIC GUARANTEED</span></nav>
+      <header className="main-header"><div className="header-brand-group"><Link className="brand" href="/"><span>T-SHOE<span className="green-dot">•</span></span><small>EST. BD</small></Link></div><label className="searchbox"><span>⌕</span><input placeholder="Search exclusive sneakers, slides, authentic drops, brands..." /><button type="button">SEARCH</button></label><div className="header-actions"><Link className="header-icon" href="/notifications">♡</Link><Link className="header-icon account-button" href="/account">♙<small>ACCOUNT<br /><b>My Profile</b></small></Link><Link className="cart-pill" href="/checkout"><ShoppingBag size={15} /><span>CART<br /><b>৳0.00</b></span></Link></div></header>
+      <nav className="navline product-detail-nav"><Link className="category-link" href="/brands">☷ &nbsp; Categories (See All)</Link>{collectionNavigation.map((item) => <Link href={item.href} key={item.label}>{item.label}</Link>)}<span>◉ &nbsp;100% AUTHENTIC GUARANTEED</span></nav>
       <div className="product-assurance-strip"><span>◉ &nbsp;HIGH DEMAND ITEM · VERIFIED AUTHENTIC STOCK CURRENTLY IN HUBS</span><span>▣ EXPRESS NEXT-DAY: DHAKA, RAJSHAHI, BOGURA</span><span>✓ 100% GENUINE BOX &amp; TAG GUARANTEE</span></div>
       <div className="product-breadcrumb"><Link href="/">HOME</Link> &nbsp;›&nbsp; <Link href="/brands">SNEAKERS</Link> &nbsp;›&nbsp; <b>{product.category.toUpperCase()} / {product.name.toUpperCase()}</b></div>
       <section className="product-detail-layout">
