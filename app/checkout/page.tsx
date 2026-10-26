@@ -127,7 +127,7 @@ export default function Checkout() {
   return (
     <main className="checkout-page express-checkout">
       <div className="express-topline">
-        <span>☎ &nbsp; HELPLINE: 01742528116</span>
+        <span>☎ &nbsp; HELPLINE: 01747295464</span>
         <span>▣ &nbsp; Bangladesh Express Delivery</span>
         <a href="#seller">Become a Seller</a>
         <a href="#seller">Login to Seller</a>
@@ -212,13 +212,13 @@ export default function Checkout() {
             <div className="express-totals"><div><span>Subtotal ({itemCount} verified pairs)</span><b>{money(subtotal)}</b></div><div><span>Shipping Fee ({delivery})</span><b>{money(shipping)}</b></div><div className="voucher-line"><span>♧ Promo Voucher {discount > 0 ? coupon.toUpperCase() : ""}</span><b>- {money(discount)}</b></div><div className="express-grand-total"><span><b>Grand Total</b><small>Inclusive of all duties &amp; tax</small></span><strong>{money(total)}</strong></div></div>
           </section>
           <section className="protocol-card"><h3><ShieldCheck size={15} /> PROTOCOL STANDARD<br /><small>Physical UV &amp; NFC Seal</small></h3><p>Every sneaker in this shipment undergoes microscopic stitch inspection, weight benchmarking, UV box stamp check, and encrypted NFC tag activation before sealing.</p><div><BadgeCheck size={13} /> Guaranteed Authentic or 200% Money Back</div></section>
-          <section className="concierge-card"><span><Headset size={16} /></span><div><b>DIRECT CONCIERGE</b><strong>01742528116</strong><small>WhatsApp support 10am–11pm</small></div><a href="tel:01742528116" aria-label="Call concierge"><MessageCircle size={14} /> Call</a></section>
+          <section className="concierge-card"><span><Headset size={16} /></span><div><b>DIRECT CONCIERGE</b><strong>01747295464</strong><small>WhatsApp support 10am–11pm</small></div><a href="tel:01747295464" aria-label="Call concierge"><MessageCircle size={14} /> Call</a></section>
         </aside>
       </form>
 
       <footer className="express-footer">
         <div className="express-footer-grid">
-          <div><Link className="express-logo footer-logo" href="/"><b>T</b><span>T-SHOE BD</span></Link><p>Bangladesh's premium curated destination for authentic sneakers, slides, limited edition releases, and modern streetwear footwear. Direct sourcing and verifiable authentication standard on every drop.</p><b className="footer-hotline">CUSTOMER HOTLINE 24/7<br /><strong>01300714517</strong></b><small>Support: help@newkeshoe.com</small></div>
+          <div><Link className="express-logo footer-logo" href="/"><b>T</b><span>T-SHOE BD</span></Link><p>Bangladesh's premium curated destination for authentic sneakers, slides, limited edition releases, and modern streetwear footwear. Direct sourcing and verifiable authentication standard on every drop.</p><b className="footer-hotline">CUSTOMER HOTLINE 24/7<br /><strong>01747295464</strong></b><small>Support: help@newkeshoe.com</small></div>
           <div><h3>Branch Outlets</h3><b>RAJSHAHI OUTLET</b><p>Holding 142, Level 2, Alakar More, Station Road, Rajshahi - 6000</p><b>BOGURA OUTLET</b><p>Shop 24-26, Ground Floor, Jamal Shopping Complex, Bogura, Bogura - 5800</p></div>
           <div><h3>Quick Links</h3><Link href="/">Home</Link><Link href="/">New Arrivals</Link><Link href="/">Sneakers Showcase</Link><Link href="/">Latest Drops</Link><Link href="/">Order Tracking</Link><Link href="/">Authentication Protocol</Link></div>
           <div id="seller"><h3>Seller Zone</h3><Link href="/">Become a Seller</Link><Link href="/">Seller Portal Login</Link><Link href="/">Consignment Guidelines</Link><Link href="/">Terms of Service</Link><Link href="/">Privacy Policy</Link></div>
