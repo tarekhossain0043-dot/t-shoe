@@ -95,7 +95,7 @@ export default function CollectionPage({ params }: { params: { slug: string } })
 
   return (
     <main className="collection-page">
-      <div className="topline"><span>☎ HELPLINE: 01742528116</span><span>BANGLADESH EXPRESS DELIVERY</span></div>
+      <div className="topline"><span>☎ HELPLINE: 01747295464</span><span>BANGLADESH EXPRESS DELIVERY</span></div>
       <header className="main-header">
         <div className="header-brand-group"><Link className="brand" href="/">T-SHOE<span className="green-dot">•</span></Link></div>
         <label className="searchbox"><Search size={15} /><input aria-label="Search products" placeholder="Search exclusive sneakers, slides, authentic drops, brands..." /></label>
