@@ -10,6 +10,7 @@
       "static/chunks/main-app.js",
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
+<<<<<<< HEAD
     ],
     "/checkout/page": [
       "static/chunks/webpack.js",
@@ -45,6 +46,8 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/brands/page.js"
+=======
+>>>>>>> f6ba2d67c6921ec18be1a8133b7e659b62b8dbc2
     ]
   }
 }

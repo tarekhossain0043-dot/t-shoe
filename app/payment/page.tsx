@@ -566,7 +566,7 @@ export default function PaymentPage() {
                   box
                 </small>
               </span>
-              <small>Helpline: 01742528116</small>
+              <small>Helpline: 01747295464</small>
             </div>
           </section>
           <section className="payment-protocol">

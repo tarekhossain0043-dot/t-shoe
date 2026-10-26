@@ -10672,3 +10672,45 @@ footer {
     padding: 22px 15px;
   }
 }
+
+
+/* Fixed Facebook Messenger contact button */
+.messenger-float {
+  position: fixed;
+  right: max(18px, env(safe-area-inset-right));
+  bottom: max(18px, env(safe-area-inset-bottom));
+  z-index: 9999;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 52px;
+  padding: 0 19px;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  border-radius: 999px;
+  background: #0866ff;
+  color: #fff;
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.24);
+  font: 700 14px/1 "DM Sans", sans-serif;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+.messenger-float:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
+}
+.messenger-float:focus-visible {
+  outline: 3px solid #00382e;
+  outline-offset: 4px;
+}
+@media (max-width: 480px) {
+  .messenger-float {
+    right: max(12px, env(safe-area-inset-right));
+    bottom: max(12px, env(safe-area-inset-bottom));
+    min-height: 48px;
+    padding: 0 15px;
+    font-size: 13px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .messenger-float { transition: none; }
+}
