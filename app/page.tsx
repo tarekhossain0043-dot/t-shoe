@@ -1016,7 +1016,7 @@ export default function Home() {
             </p>
             <div className="support-box">
               <small>CUSTOMER SUPPORT HOTLINE</small>
-              <b>☎ 01300714517</b>
+              <b>☎ 01747295464</b>
               <span>Available 10:00 AM–10:00 PM (Everyday)</span>
             </div>
           </div>
