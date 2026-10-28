@@ -34,6 +34,25 @@ a {
   color: inherit;
 }
 
+.floating-contact {
+  max-width: 54px !important;
+  transition-duration: all 0.7s ease-in-out;
+}
+
+.floating-contact span {
+  display: none;
+  transition-duration: all 0.7s ease-in-out;
+}
+
+.floating-contact:hover {
+  max-width: 450px !important;
+  width: 100%;
+}
+
+.floating-contact:hover span {
+  display: flex;
+}
+
 button,
 input,
 select,
@@ -10673,7 +10692,6 @@ footer {
   }
 }
 
-
 /* Fixed Facebook Messenger contact button */
 .messenger-float {
   position: fixed;
@@ -10691,8 +10709,12 @@ footer {
   background: #0866ff;
   color: #fff;
   box-shadow: 0 8px 26px rgba(0, 0, 0, 0.24);
-  font: 700 14px/1 "DM Sans", sans-serif;
-  transition: transform 160ms ease, box-shadow 160ms ease;
+  font:
+    700 14px/1 "DM Sans",
+    sans-serif;
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease;
 }
 .messenger-float:hover {
   transform: translateY(-3px);
@@ -10712,5 +10734,7 @@ footer {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .messenger-float { transition: none; }
+  .messenger-float {
+    transition: none;
+  }
 }
